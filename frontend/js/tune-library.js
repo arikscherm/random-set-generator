@@ -1,22 +1,16 @@
-//show all the tunes. So it's just a constent from script.js. Which should be local storage I guess? but I'd like to import it. 
-//favorites will be local storage for sure. 
-//remaining sets can be exported since that's temporary
-
-//Grab the full library from script.js
-//use the tune-library id to display our new var
-
-
+//Retrieve lists from local browser storage
 let tuneLibrary = JSON.parse(localStorage.getItem("tuneLibrary")) || [];
 let remainingTunes = JSON.parse(localStorage.getItem("remainingTunes")) || [];
-console.log("Remaining Tunes: ", remainingTunes)
 
+//Display entire collection of tunes, including tunes already selected in the current session
 function displayTuneLibrary() {
-    const tuneList = document.getElementById("tuneLibrary")
+    const tuneList = document.getElementById("tuneLibrary");
     tuneList.innerHTML = ""; 
     tuneLibrary.forEach((tune) => {
         const listItem = document.createElement("li");
         listItem.textContent = tune;
 
+        //Button to remove tunes from tune library
         const removeButton = document.createElement("button")
         removeButton.textContent = "remove";
         removeButton.onclick = () => removeTune(tune);
@@ -26,42 +20,51 @@ function displayTuneLibrary() {
       });
 }
 
-
+//
 function addTune() {
+
+    //Get new tune from input field
     let newTune = document.getElementById("newTune").value;
     if (!newTune) return;
 
-    //get from local storage and add it
+    //Add the new tune to the tune library and remaining tunes for the session. Update both lists in local browser storage
     tuneLibrary.push(newTune);
     remainingTunes.push(newTune);
     localStorage.setItem("tuneLibrary", JSON.stringify(tuneLibrary));
     localStorage.setItem("remainingTunes", JSON.stringify(remainingTunes));
 
-    //now add it to the list
+    //Display the new tune
     const tuneList = document.getElementById("tuneLibrary");
     const newItem = document.createElement("li");
     newItem.textContent = newTune;
-    tuneList.appendChild(newItem)
-
-    //clear input field
-    document.getElementById("newTune").value = "";
+    tuneList.appendChild(newItem);
     displayTuneLibrary();
+
+    //Clear input after posting new tune
+    document.getElementById("newTune").value = "";
     console.log("Remaining Tunes: ", remainingTunes)
 
 }
 
-
+//Remove tune from tune library
 function removeTune(tuneToRemove) {
+
+    //Remove the tune and update the tune library in local browser storage
     tuneLibrary = tuneLibrary.filter(tune => tune != tuneToRemove);
     localStorage.setItem("tuneLibrary", JSON.stringify(tuneLibrary));
 
+    //Remove the tune and update remaining tunes in local browser storage...TODO: put if it's in remaining tunes, bc this doesn't need to execute if the tune was already played 
     remainingTunes = remainingTunes.filter(tune => tune != tuneToRemove);
     localStorage.setItem("remainingTunes", JSON.stringify(remainingTunes));
+    
+    //Display the updated tunes library
     displayTuneLibrary();
     console.log(remainingTunes)
 
 }
 
+
+//Enable posting new tunesd by pushing enter
 function addEnterKeyListener() {
     const input = document.getElementById("newTune");
     input.addEventListener("keydown", function(event) {
@@ -72,7 +75,9 @@ function addEnterKeyListener() {
     });
 }
 
-displayTuneLibrary()
+
+console.log("Remaining Tunes: ", remainingTunes);
+displayTuneLibrary();
 document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("submitNewTune").addEventListener("click", addTune);
     addEnterKeyListener();
