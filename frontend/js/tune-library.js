@@ -8,7 +8,7 @@
 
 let tuneLibrary = JSON.parse(localStorage.getItem("tuneLibrary")) || [];
 let remainingTunes = JSON.parse(localStorage.getItem("remainingTunes")) || [];
-
+console.log("Remaining Tunes: ", remainingTunes)
 
 function displayTuneLibrary() {
     const tuneList = document.getElementById("tuneLibrary")

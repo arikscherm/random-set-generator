@@ -4,11 +4,18 @@ let tuneLibrary = JSON.parse(localStorage.getItem("tuneLibrary")) || [
     "Wise Maid",
     "Bird in the Bush"
 ];
-let remainingTunes = JSON.parse(localStorage.getItem("remainingTunes")) || [...tuneLibrary];
 
+let remainingTunes = JSON.parse(localStorage.getItem("remainingTunes")) || [...tuneLibrary];
+console.log("Remaining Tunes: ", remainingTunes)
 localStorage.setItem("tuneLibrary", JSON.stringify(tuneLibrary));
 localStorage.setItem("remainingTunes", JSON.stringify(remainingTunes));
 console.log("Remaining Tunes: ", remainingTunes)
+
+let setsPlayed = JSON.parse(localStorage.getItem("setsPlayed")) || [];
+localStorage.setItem("setsPlayed", JSON.stringify(setsPlayed));
+
+let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+localStorage.setItem("favorites", JSON.stringify(favorites));
 
 function getRandomSet() {
     if (remainingTunes.length < 3) {
@@ -31,7 +38,14 @@ function getRandomSet() {
 
         localStorage.setItem("remainingTunes", JSON.stringify(remainingTunes));
         console.log(remainingTunes)
+        setsPlayed.push(newSet);
+        localStorage.setItem("setsPlayed", JSON.stringify(setsPlayed));
+        console.log("sets played", setsPlayed)
         displaySet(newSet)
+
+        const addFavoriteButton = document.getElementById("addFavorite")
+        addFavoriteButton.onclick = () => addFavorite(newSet);
+
     }
 }
 
@@ -47,7 +61,18 @@ function resetSession() {
     setText.innerHTML = ""
     remainingTunes = [...tuneLibrary]
     localStorage.setItem("remainingTunes", JSON.stringify(remainingTunes));
+
+    setsPlayed = []
+    localStorage.setItem("setsPlayed", JSON.stringify(setsPlayed));
+
     console.log("Remaining Tunes: ", remainingTunes)
+}
+
+
+function addFavorite(newSet) {
+    favorites.push(newSet);
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+
 }
 
 
