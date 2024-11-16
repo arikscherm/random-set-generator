@@ -2,6 +2,8 @@
 let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
 console.log("favorites", favorites);
 
+
+// Iterate through favorites list, list each set and add remove button next to each item
 function displayFavorites() {
     let favoritesList = document.getElementById("favorites");
     favoritesList.innerHTML = ""; 
