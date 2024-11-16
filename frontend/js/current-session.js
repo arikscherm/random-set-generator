@@ -25,5 +25,7 @@ function displayRemainingTunes() {
       });
 }
 
+
+// Display all content
 displaySetsPlayed();
 displayRemainingTunes();

@@ -20,7 +20,7 @@ function displayTuneLibrary() {
       });
 }
 
-//
+// Take input value and append to list of tunes
 function addTune() {
 
     //Get new tune from input field
@@ -28,16 +28,18 @@ function addTune() {
     if (!newTune) return;
 
     //Add the new tune to the tune library and remaining tunes for the session. Update both lists in local browser storage
+    //Check for duplicate
     if (tuneLibrary.includes(newTune)) {
         alert("Tune already in library!");
     }
     else {
+        // add new tune to both tune library and remaining tunes for current session
         tuneLibrary.push(newTune);
         remainingTunes.push(newTune);
         localStorage.setItem("tuneLibrary", JSON.stringify(tuneLibrary));
         localStorage.setItem("remainingTunes", JSON.stringify(remainingTunes));
 
-        //Display the new tune
+        //Update the html and display the new tune
         const tuneList = document.getElementById("tuneLibrary");
         const newItem = document.createElement("li");
         newItem.textContent = newTune;
@@ -58,10 +60,12 @@ function removeTune(tuneToRemove) {
     tuneLibrary = tuneLibrary.filter(tune => tune != tuneToRemove);
     localStorage.setItem("tuneLibrary", JSON.stringify(tuneLibrary));
 
-    //Remove the tune and update remaining tunes in local browser storage...TODO: put if it's in remaining tunes, bc this doesn't need to execute if the tune was already played 
-    remainingTunes = remainingTunes.filter(tune => tune != tuneToRemove);
-    localStorage.setItem("remainingTunes", JSON.stringify(remainingTunes));
-    
+    //If tune is in remaining tunes, remove the tune and update remaining tunes in local browser storage
+    if (remainingTunes.includes(tuneToRemove)) {
+        remainingTunes = remainingTunes.filter(tune => tune != tuneToRemove);
+        localStorage.setItem("remainingTunes", JSON.stringify(remainingTunes));
+    }
+
     //Display the updated tunes library
     displayTuneLibrary();
     console.log(remainingTunes)
