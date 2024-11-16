@@ -28,21 +28,26 @@ function addTune() {
     if (!newTune) return;
 
     //Add the new tune to the tune library and remaining tunes for the session. Update both lists in local browser storage
-    tuneLibrary.push(newTune);
-    remainingTunes.push(newTune);
-    localStorage.setItem("tuneLibrary", JSON.stringify(tuneLibrary));
-    localStorage.setItem("remainingTunes", JSON.stringify(remainingTunes));
+    if (tuneLibrary.includes(newTune)) {
+        alert("Tune already in library!");
+    }
+    else {
+        tuneLibrary.push(newTune);
+        remainingTunes.push(newTune);
+        localStorage.setItem("tuneLibrary", JSON.stringify(tuneLibrary));
+        localStorage.setItem("remainingTunes", JSON.stringify(remainingTunes));
 
-    //Display the new tune
-    const tuneList = document.getElementById("tuneLibrary");
-    const newItem = document.createElement("li");
-    newItem.textContent = newTune;
-    tuneList.appendChild(newItem);
-    displayTuneLibrary();
+        //Display the new tune
+        const tuneList = document.getElementById("tuneLibrary");
+        const newItem = document.createElement("li");
+        newItem.textContent = newTune;
+        tuneList.appendChild(newItem);
+        displayTuneLibrary();
 
-    //Clear input after posting new tune
-    document.getElementById("newTune").value = "";
-    console.log("Remaining Tunes: ", remainingTunes)
+        //Clear input after posting new tune
+        document.getElementById("newTune").value = "";
+        console.log("Remaining Tunes: ", remainingTunes);
+    }
 
 }
 
@@ -82,3 +87,6 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("submitNewTune").addEventListener("click", addTune);
     addEnterKeyListener();
 })
+
+
+

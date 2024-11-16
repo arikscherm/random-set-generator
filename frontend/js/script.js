@@ -77,8 +77,15 @@ function resetSession() {
 
 
 function addFavorite(newSet) {
-    favorites.push(newSet);
-    localStorage.setItem("favorites", JSON.stringify(favorites));
+    if (favorites.includes(newSet)) {
+        alert("Set already favorited!")
+    }
+    
+    else{
+        favorites.push(newSet);
+        localStorage.setItem("favorites", JSON.stringify(favorites));
+    }
+
 
 }
 
